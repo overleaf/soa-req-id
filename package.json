@@ -1,0 +1,26 @@
+{
+  "author": "Henry Oswald - sharelatex.com",
+  "name": "soa-req-id",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@bitbucket.org/henryoswald/soa-req-id.git"
+  },
+  "dependencies": {
+    "node-uuid": "~1.4.0",
+    "coffee-script": "~1.4.0",
+    "mocha": "~1.8.1"
+  },
+  "devDependencies": {
+    "sinon": "~1.5.2",
+    "sandboxed-module": "~0.1.4",
+    "chai": "~1.4.2"
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  },
+  "scripts":{
+    "test":"./node_modules/mocha/bin/mocha ./tests/unit.coffee --compilers coffee:coffee-script"
+  }
+}
