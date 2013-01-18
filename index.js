@@ -1,3 +1,2 @@
-var coffee = require('coffee-script')
-var module = require('./soa-req-id')
-module.export = module
+require("coffee-script")
+module.exports = require('./soa-req-id');
