@@ -87,3 +87,8 @@ describe 'third party data store', ->
 			middlewear(req, {}, done)
 			req.sl_req_id.should.equal "sl_req_id:#{stubbed_sl_req_id}"
 
+
+	describe "getting a new id", ->
+		it 'should start with sl_req_id', ->
+			@helper.newId().should.equal "sl_req_id:#{stubbed_sl_req_id}"
+

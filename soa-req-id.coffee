@@ -17,9 +17,13 @@ module.exports =
 		return {sl_req_id:sl_req_id, callback:callback}
 
 	use : ->
-		return (req, res, next)->
-			req.sl_req_id = req.headers["sl_req_id"] || "sl_req_id:#{uuid.v4()}"
+		return (req, res, next)=>
+			req.sl_req_id = req.headers["sl_req_id"] || @newId()
 			next()
+
+	newId: ->
+		return "sl_req_id:#{uuid.v4()}"
+
 
 isFunction = (fun)->
 	return typeof(fun) == "function"
