@@ -3,7 +3,7 @@ assert = require('assert')
 require('chai').should()
 sinon = require('sinon')
 path = require('path')
-modulePath ='../soa-req-id'
+modulePath = '../soa-req-id'
 
 
 describe 'third party data store', ->
