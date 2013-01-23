@@ -18,11 +18,17 @@ module.exports =
 
 	use : ->
 		return (req, res, next)=>
-			req.sl_req_id = req.headers["sl_req_id"] || @newId()
+			currentHeader = req.headers["sl_req_id"]
+			if !currentHeader? || currentHeader == 'null'
+				id = @newId()
+			else
+				id = currentHeader
+			req.sl_req_id = id
 			next()
 
 	newId: ->
-		return "sl_req_id:#{uuid.v4()}"
+		value = "sl_req_id:#{uuid.v4()}"
+		return value
 
 
 isFunction = (fun)->
