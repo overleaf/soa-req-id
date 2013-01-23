@@ -2,8 +2,9 @@ uuid = require('node-uuid')
 
 module.exports =
 	getCallbackAndReqId: (args, callbackOverride)->
-		callback = args[args.length-1]
-		sl_req_id = args[args.length-2]
+		length = Object.keys(args).length
+		callback = args[length-1]
+		sl_req_id = args[length-2]
 		if(!isFunction(callback))
 			sl_req_id = callback
 		if typeof(sl_req_id) != "string"

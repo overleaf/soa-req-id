@@ -21,53 +21,53 @@ describe 'third party data store', ->
 		origonalCallback = ->
 
 		it 'should work with no other arguemnts', ->
-			args = [req_id, origonalCallback]
+			args = {0:req_id, 1:origonalCallback}
 			{callback, sl_req_id} = @helper.getCallbackAndReqId(args)
 			sl_req_id.should.equal req_id
 			callback.should.equal(origonalCallback)
 
 		it 'should work with 1 other arguemnt', ->
-			args = ["project_id", req_id, origonalCallback]
+			args = 0:"project_id", 1:req_id, 2:origonalCallback
 			{callback, sl_req_id} = @helper.getCallbackAndReqId(args)
 			sl_req_id.should.equal req_id
 			callback.should.equal(origonalCallback)
 
 		it 'should work with 3 other arguemnts', ->
-			args = ["project_id", "user_id", {},req_id, origonalCallback]
+			args = 0:"project_id", 1:"user_id", 2:{}, 3:req_id, 4:origonalCallback
 			{callback, sl_req_id} = @helper.getCallbackAndReqId(args)
 			sl_req_id.should.equal req_id
 			callback.should.equal(origonalCallback)
 
 		it 'should work with only the callback', ->
-			args = [origonalCallback]
+			args = 0:origonalCallback
 			{callback, sl_req_id} = @helper.getCallbackAndReqId(args)
 			callback.should.equal(origonalCallback)
 
 		it 'should work with only the sl_req_id', ->
-			args = [req_id]
+			args = 0:req_id
 			{callback, sl_req_id} = @helper.getCallbackAndReqId(args)
 			sl_req_id.should.equal req_id
 
 		it 'should work with no req id', ->
-			args = [{}, origonalCallback]
+			args = 0:{}, 1:origonalCallback
 			{callback, sl_req_id} = @helper.getCallbackAndReqId(args)
 			assert.equal sl_req_id, null
 			callback.should.equal origonalCallback
 
 		it 'should not set the sl_req_id if the second by last arg does not start with sl_req_id', ->
-			args = ["radom_string", origonalCallback]
+			args = 0:"radom_string", 1:origonalCallback
 			{callback, sl_req_id} = @helper.getCallbackAndReqId(args)
 			assert.equal sl_req_id, null
 			callback.should.equal origonalCallback
 
 		it 'should take a second argument which is the definate callback and still return the req id', ->
-			args = [req_id]
+			args = 0:req_id
 			{callback, sl_req_id} = @helper.getCallbackAndReqId(args, origonalCallback)
 			assert.equal sl_req_id, req_id
 			callback.should.equal origonalCallback
 
 		it 'should take a second argument which is the definate callback and return null req id', ->
-			args = ["not req"]
+			args = 0:"not req"
 			{callback, sl_req_id} = @helper.getCallbackAndReqId(args, origonalCallback)
 			assert.equal sl_req_id, null
 			callback.should.equal origonalCallback
