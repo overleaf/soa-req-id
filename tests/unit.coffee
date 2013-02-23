@@ -16,61 +16,33 @@ describe 'third party data store', ->
 		@helper = SandboxedModule.require modulePath, requires:
 			'node-uuid' : @uuid
 
-	describe "callback finder", ->
+	describe "getCallbackAndReqId", ->
 		req_id = "sl_req_id:j1klej8jklsajd"
-		origonalCallback = ->
+		callback = () ->
 
-		it 'should work with no other arguemnts', ->
-			args = {0:req_id, 1:origonalCallback}
-			{callback, sl_req_id} = @helper.getCallbackAndReqId(args)
-			sl_req_id.should.equal req_id
-			callback.should.equal(origonalCallback)
+		describe "when the request id and callback are present", ->
+			beforeEach ->
+				@result = @helper.getCallbackAndReqId(callback, req_id)
 
-		it 'should work with 1 other arguemnt', ->
-			args = 0:"project_id", 1:req_id, 2:origonalCallback
-			{callback, sl_req_id} = @helper.getCallbackAndReqId(args)
-			sl_req_id.should.equal req_id
-			callback.should.equal(origonalCallback)
+			it "should return them both untouched", ->
+				@result.callback.should.equal callback
+				@result.sl_req_id.should.equal req_id
 
-		it 'should work with 3 other arguemnts', ->
-			args = 0:"project_id", 1:"user_id", 2:{}, 3:req_id, 4:origonalCallback
-			{callback, sl_req_id} = @helper.getCallbackAndReqId(args)
-			sl_req_id.should.equal req_id
-			callback.should.equal(origonalCallback)
+		describe "when the request id is missing", ->
+			beforeEach ->
+				@result = @helper.getCallbackAndReqId(callback, null)
 
-		it 'should work with only the callback', ->
-			args = 0:origonalCallback
-			{callback, sl_req_id} = @helper.getCallbackAndReqId(args)
-			callback.should.equal(origonalCallback)
+			it "should return the callback and null for the request id", ->
+				@result.callback.should.equal callback
+				(@result.sl_req_id == null).should.equal true
 
-		it 'should work with only the sl_req_id', ->
-			args = 0:req_id
-			{callback, sl_req_id} = @helper.getCallbackAndReqId(args)
-			sl_req_id.should.equal req_id
+		describe "when the request id is a function", ->
+			beforeEach ->
+				@result = @helper.getCallbackAndReqId((() ->), callback)
 
-		it 'should work with no req id', ->
-			args = 0:{}, 1:origonalCallback
-			{callback, sl_req_id} = @helper.getCallbackAndReqId(args)
-			assert.equal sl_req_id, null
-			callback.should.equal origonalCallback
-
-		it 'should not set the sl_req_id if the second by last arg does not start with sl_req_id', ->
-			args = 0:"radom_string", 1:origonalCallback
-			{callback, sl_req_id} = @helper.getCallbackAndReqId(args)
-			assert.equal sl_req_id, null
-			callback.should.equal origonalCallback
-
-		it 'should take a second argument which is the definate callback and still return the req id', ->
-			args = 0:req_id
-			{callback, sl_req_id} = @helper.getCallbackAndReqId(args, origonalCallback)
-			assert.equal sl_req_id, req_id
-			callback.should.equal origonalCallback
-
-		it 'should take a second argument which is the definate callback and return null req id', ->
-			args = 0:"not req"
-			{callback, sl_req_id} = @helper.getCallbackAndReqId(args, origonalCallback)
-			assert.equal sl_req_id, null
-			callback.should.equal origonalCallback
+			it "should return the function as the callback", ->
+				@result.callback.should.equal callback
+				(@result.sl_req_id == null).should.equal true
 
 	describe "pulling the header out and putting it on the request as middlewear", ->
 

@@ -1,21 +1,11 @@
 uuid = require('node-uuid')
 
 module.exports =
-	getCallbackAndReqId: (args, callbackOverride)->
-		length = Object.keys(args).length
-		callback = args[length-1]
-		sl_req_id = args[length-2]
-		if(!isFunction(callback))
-			sl_req_id = callback
-		if typeof(sl_req_id) != "string"
-			sl_req_id = null
-		else if sl_req_id.indexOf("sl_req_id") == -1
-			sl_req_id = null
-
-		if callbackOverride?
-			callback = callbackOverride
-			
-		return {sl_req_id:sl_req_id, callback:callback}
+	getCallbackAndReqId: (callback, sl_req_id)->
+		if typeof sl_req_id == "function"
+			return sl_req_id: null, callback: sl_req_id
+		else
+			return sl_req_id: sl_req_id, callback: callback
 
 	use : ->
 		return (req, res, next)=>
