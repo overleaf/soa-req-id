@@ -1,7 +1,8 @@
 {
   "author": "Henry Oswald - sharelatex.com",
   "name": "soa-req-id",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "description": "sao-req-id",
   "repository": {
     "type": "git",
     "url": "ssh://git@bitbucket.org/henryoswald/soa-req-id.git"
